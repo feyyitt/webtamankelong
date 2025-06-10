@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panduan Admin - Taman Kelong</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #e0f7fa 0%, #fffde4 100%);
+            min-height: 100vh;
+            color: #333;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e7e34, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #1e7e34;
+            margin: 30px 0 15px 0;
+            border-bottom: 2px solid #ffd700;
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin: 20px 0 10px 0;
+        }
+
+        p, li {
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .credential-box {
+            background: linear-gradient(135deg, rgba(30, 126, 52, 0.1), rgba(255, 215, 0, 0.1));
+            border: 1px solid rgba(30, 126, 52, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .credential-box h3 {
+            color: #1e7e34;
+            margin-bottom: 15px;
+        }
+
+        .credential-item {
+            background: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #ffd700;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, rgba(255, 193, 7, 0.1), rgba(220, 53, 69, 0.1));
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .warning-box h3 {
+            color: #dc3545;
+            margin-bottom: 15px;
+        }
+
+        .feature-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .feature-item {
+            background: rgba(30, 126, 52, 0.05);
+            border-radius: 10px;
+            padding: 20px;
+            border-left: 4px solid #1e7e34;
+        }
+
+        .feature-item h4 {
+            color: #1e7e34;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .back-link a {
+            color: #1e7e34;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 12px 25px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, rgba(30, 126, 52, 0.1), rgba(255, 215, 0, 0.1));
+            border: 1px solid rgba(30, 126, 52, 0.2);
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .back-link a:hover {
+            background: linear-gradient(135deg, #1e7e34, #ffd700);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(30, 126, 52, 0.3);
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #1e7e34, #ffd700);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            .feature-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 Panduan Sistem Admin Taman Kelong</h1>
+
+        <h2>🔐 Informasi Login</h2>
+        <div class="credential-box">
+            <h3>Kredensial Admin Default:</h3>
+            <div class="credential-item">
+                <strong>Username:</strong> admin
+            </div>
+            <div class="credential-item">
+                <strong>Password:</strong> tamankelong2025
+            </div>
+        </div>
+
+        <div class="warning-box">
+            <h3>⚠️ Penting untuk Keamanan!</h3>
+            <p>Setelah deployment pertama, segera ganti kredensial default ini dengan yang lebih aman. Username dan password ini hanya untuk demo dan pengembangan.</p>
+        </div>
+
+        <h2>📋 Fitur Sistem Admin</h2>
+        <div class="feature-list">
+            <div class="feature-item">
+                <h4>📊 Dashboard Statistik</h4>
+                <p>Melihat ringkasan total reservasi, jumlah yang menunggu approval, disetujui, dan dibatalkan dalam kartu statistik yang informatif.</p>
+            </div>
+            <div class="feature-item">
+                <h4>🔍 Filter & Pencarian</h4>
+                <p>Filter reservasi berdasarkan status, rentang tanggal kunjungan, dan pencarian berdasarkan nama pemesan.</p>
+            </div>
+            <div class="feature-item">
+                <h4>✅ Manajemen Status</h4>
+                <p>Approve atau tolak reservasi yang masuk. Status akan otomatis ter-update dan dapat dilihat dalam tabel.</p>
+            </div>
+            <div class="feature-item">
+                <h4>👁️ Detail Reservasi</h4>
+                <p>Lihat detail lengkap setiap reservasi termasuk makanan yang dipesan, total harga, dan catatan khusus.</p>
+            </div>
+            <div class="feature-item">
+                <h4>🗑️ Hapus Data</h4>
+                <p>Hapus reservasi yang tidak diperlukan dengan konfirmasi untuk mencegah penghapusan tidak sengaja.</p>
+            </div>
+            <div class="feature-item">
+                <h4>📥 Export Data</h4>
+                <p>Export data reservasi ke format CSV untuk analisis lebih lanjut atau backup data.</p>
+            </div>
+        </div>
+
+        <h2>🚀 Cara Menggunakan Sistem</h2>
+
+        <h3><span class="step-number">1</span>Akses Admin</h3>
+        <p>Buka halaman admin dengan mengklik ikon ⚙️ di footer website utama atau langsung ke <code>admin_login.html</code></p>
+
+        <h3><span class="step-number">2</span>Login</h3>
+        <p>Masukkan username dan password admin, kemudian klik "Masuk ke Dashboard"</p>
+
+        <h3><span class="step-number">3</span>Monitor Reservasi</h3>
+        <p>Dashboard akan menampilkan:</p>
+        <ul>
+            <li>Statistik reservasi dalam kartu yang mudah dibaca</li>
+            <li>Tabel semua reservasi dengan informasi lengkap</li>
+            <li>Status setiap reservasi (Menunggu/Disetujui/Dibatalkan)</li>
+        </ul>
+
+        <h3><span class="step-number">4</span>Kelola Reservasi</h3>
+        <p>Untuk setiap reservasi, Anda dapat:</p>
+        <ul>
+            <li><strong>Lihat Detail:</strong> Klik tombol "Lihat" untuk melihat informasi lengkap</li>
+            <li><strong>Setujui:</strong> Klik "Setujui" untuk meng-approve reservasi</li>
+            <li><strong>Tolak:</strong> Klik "Tolak" untuk menolak reservasi</li>
+            <li><strong>Hapus:</strong> Klik "Hapus" untuk menghapus data reservasi</li>
+        </ul>
+
+        <h3><span class="step-number">5</span>Filter & Cari</h3>
+        <p>Gunakan filter untuk:</p>
+        <ul>
+            <li>Menampilkan reservasi berdasarkan status tertentu</li>
+            <li>Melihat reservasi dalam rentang tanggal tertentu</li>
+            <li>Mencari reservasi berdasarkan nama pemesan</li>
+        </ul>
+
+        <h3><span class="step-number">6</span>Export Data</h3>
+        <p>Klik "Export CSV" untuk mengunduh data reservasi yang sudah difilter dalam format spreadsheet</p>
+
+        <h2>💾 Penyimpanan Data</h2>
+        <p>Sistem ini menggunakan localStorage browser untuk menyimpan data reservasi. Data akan tersimpan di browser admin dan dapat diakses selama browser tidak di-clear cache-nya.</p>
+
+        <div class="warning-box">
+            <h3>📝 Catatan Penting:</h3>
+            <ul>
+                <li>Data disimpan di localStorage browser, pastikan tidak menghapus cache browser</li>
+                <li>Untuk production, disarankan menggunakan database server</li>
+                <li>Backup data secara berkala menggunakan fitur Export CSV</li>
+                <li>Session admin berlaku 24 jam, setelah itu harus login ulang</li>
+            </ul>
+        </div>        <h2>🔄 Integrasi dengan Form Reservasi</h2>
+        <p>Sistem admin sudah terintegrasi otomatis dengan form reservasi. Setiap kali ada reservasi baru dari website:</p>
+        <ul>
+            <li>Data otomatis tersimpan di sistem admin dengan status "Menunggu"</li>
+            <li>Admin akan melihat reservasi baru di dashboard</li>
+            <li>ID unik otomatis dibuat untuk setiap reservasi</li>
+            <li>Customer akan mendapat notifikasi bahwa reservasi telah diterima</li>
+            <li>Admin dapat menghubungi customer melalui nomor WhatsApp yang tersimpan</li>
+        </ul>
+
+        <h2>📱 Responsive Design</h2>
+        <p>Dashboard admin sudah responsive dan dapat diakses dari:</p>
+        <ul>
+            <li>Desktop/Laptop - Tampilan penuh dengan semua fitur</li>
+            <li>Tablet - Layout yang disesuaikan untuk layar sedang</li>
+            <li>Mobile - Interface yang dioptimalkan untuk smartphone</li>
+        </ul>
+
+        <div class="back-link">
+            <a href="admin_login.html">🔐 Login ke Admin Dashboard</a>
+        </div>
+    </div>
+</body>
+</html>

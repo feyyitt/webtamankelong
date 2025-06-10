@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Taman Kelong</title>
+    <meta name="description" content="Dashboard Admin untuk mengelola reservasi Taman Kelong">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #e0f7fa 0%, #fffde4 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 20px 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #1e7e34, #ffd700);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+            font-weight: 700;
+        }
+
+        .header-title {
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e7e34, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .refresh-btn, .logout-btn {
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: none;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .refresh-btn {
+            background: linear-gradient(135deg, #1e7e34, #ffd700);
+            color: white;
+        }
+
+        .refresh-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(30, 126, 52, 0.3);
+        }
+
+        .logout-btn {
+            background: linear-gradient(135deg, #dc3545, #ff6b7a);
+            color: white;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(220, 53, 69, 0.3);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px;
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .stat-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: white;
+        }
+
+        .stat-icon.total {
+            background: linear-gradient(135deg, #3498db, #74b9ff);
+        }
+
+        .stat-icon.pending {
+            background: linear-gradient(135deg, #f39c12, #fdcb6e);
+        }
+
+        .stat-icon.approved {
+            background: linear-gradient(135deg, #1e7e34, #00b894);
+        }
+
+        .stat-icon.cancelled {
+            background: linear-gradient(135deg, #dc3545, #ff7675);
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Filters */
+        .filters-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .filters-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .filters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .filter-label {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .filter-select, .filter-input {
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .filter-select:focus, .filter-input:focus {
+            outline: none;
+            border-color: #1e7e34;
+            box-shadow: 0 0 0 3px rgba(30, 126, 52, 0.1);
+        }
+
+        /* Reservations Table */
+        .reservations-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #1e7e34, #ffd700);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(30, 126, 52, 0.3);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 12px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .reservations-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .reservations-table th {
+            background: linear-gradient(135deg, #1e7e34, #ffd700);
+            color: white;
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: 600;
+            border: none;
+        }
+
+        .reservations-table td {
+            padding: 15px 12px;
+            border-bottom: 1px solid #f0f0f0;
+            vertical-align: top;
+        }
+
+        .reservations-table tr:hover {
+            background: rgba(30, 126, 52, 0.05);
+        }
+
+        .status-badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-pending {
+            background: linear-gradient(135deg, rgba(243, 156, 18, 0.1), rgba(253, 203, 110, 0.1));
+            color: #f39c12;
+            border: 1px solid rgba(243, 156, 18, 0.2);
+        }
+
+        .status-approved {
+            background: linear-gradient(135deg, rgba(30, 126, 52, 0.1), rgba(0, 184, 148, 0.1));
+            color: #1e7e34;
+            border: 1px solid rgba(30, 126, 52, 0.2);
+        }
+
+        .status-cancelled {
+            background: linear-gradient(135deg, rgba(220, 53, 69, 0.1), rgba(255, 118, 117, 0.1));
+            color: #dc3545;
+            border: 1px solid rgba(220, 53, 69, 0.2);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .approve-btn {
+            background: linear-gradient(135deg, #1e7e34, #00b894);
+            color: white;
+        }
+
+        .approve-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(30, 126, 52, 0.3);
+        }
+
+        .cancel-btn {
+            background: linear-gradient(135deg, #dc3545, #ff7675);
+            color: white;
+        }
+
+        .cancel-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(220, 53, 69, 0.3);
+        }
+
+        .delete-btn {
+            background: linear-gradient(135deg, #6c757d, #95a5a6);
+            color: white;
+        }
+
+        .delete-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(108, 117, 125, 0.3);
+        }
+
+        .view-btn {
+            background: linear-gradient(135deg, #3498db, #74b9ff);
+            color: white;
+        }
+
+        .view-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            padding: 5px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(220, 53, 69, 0.1);
+            color: #dc3545;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .detail-item {
+            padding: 15px;
+            background: rgba(30, 126, 52, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid #1e7e34;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .detail-value {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Empty state */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-icon {
+            font-size: 64px;
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+
+        .empty-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .empty-description {
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 20px;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .header-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .refresh-btn, .logout-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+
+            .export-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .table-container {
+                font-size: 12px;
+            }
+
+            .reservations-table th,
+            .reservations-table td {
+                padding: 10px 8px;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .modal-content {
+                margin: 10px;
+                width: calc(100% - 20px);
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo">TK</div>
+                <h1 class="header-title">Admin Dashboard</h1>
+            </div>            <div class="header-actions">
+                <button class="refresh-btn" onclick="loadReservations()">
+                    <i class="fas fa-sync-alt"></i>
+                    Refresh
+                </button>
+                <a href="admin_guide.html" class="refresh-btn" target="_blank" style="text-decoration: none;">
+                    <i class="fas fa-question-circle"></i>
+                    Panduan
+                </a>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Logout
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">Total Reservasi</span>
+                    <div class="stat-icon total">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                </div>
+                <div class="stat-number" id="totalReservations">0</div>
+                <div class="stat-label">Semua waktu</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">Menunggu Approval</span>
+                    <div class="stat-icon pending">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                </div>
+                <div class="stat-number" id="pendingReservations">0</div>
+                <div class="stat-label">Perlu ditinjau</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">Disetujui</span>
+                    <div class="stat-icon approved">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                </div>
+                <div class="stat-number" id="approvedReservations">0</div>
+                <div class="stat-label">Reservasi aktif</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <span class="stat-title">Dibatalkan</span>
+                    <div class="stat-icon cancelled">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                </div>
+                <div class="stat-number" id="cancelledReservations">0</div>
+                <div class="stat-label">Tidak jadi</div>
+            </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-section">
+            <h3 class="filters-title">
+                <i class="fas fa-filter"></i>
+                Filter Reservasi
+            </h3>
+            <div class="filters-grid">
+                <div class="filter-group">
+                    <label class="filter-label">Status</label>
+                    <select id="statusFilter" class="filter-select">
+                        <option value="">Semua Status</option>
+                        <option value="pending">Menunggu Approval</option>
+                        <option value="approved">Disetujui</option>
+                        <option value="cancelled">Dibatalkan</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Tanggal Mulai</label>
+                    <input type="date" id="startDateFilter" class="filter-input">
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Tanggal Akhir</label>
+                    <input type="date" id="endDateFilter" class="filter-input">
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Cari Nama</label>
+                    <input type="text" id="nameFilter" class="filter-input" placeholder="Masukkan nama...">
+                </div>
+            </div>
+        </div>
+
+        <!-- Reservations Table -->
+        <div class="reservations-section">
+            <div class="section-header">
+                <h3 class="section-title">
+                    <i class="fas fa-list"></i>
+                    Daftar Reservasi
+                </h3>
+                <button class="export-btn" onclick="exportToCSV()">
+                    <i class="fas fa-download"></i>
+                    Export CSV
+                </button>
+            </div>
+
+            <div class="table-container">
+                <table class="reservations-table">
+                    <thead>
+                        <tr>
+                            <th>Tanggal</th>
+                            <th>Nama</th>
+                            <th>WhatsApp</th>
+                            <th>Tanggal Kunjungan</th>
+                            <th>Jumlah Orang</th>
+                            <th>Total Harga</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reservationsTableBody">
+                        <!-- Data will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Empty state -->
+            <div id="emptyState" class="empty-state" style="display: none;">
+                <div class="empty-icon">
+                    <i class="fas fa-calendar-times"></i>
+                </div>
+                <div class="empty-title">Belum ada reservasi</div>
+                <div class="empty-description">Reservasi yang masuk akan muncul di sini</div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal for viewing reservation details -->
+    <div id="detailModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Detail Reservasi</h3>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div id="modalContent">
+                <!-- Detail content will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check authentication
+        function checkAuth() {
+            const isLoggedIn = localStorage.getItem('adminLoggedIn');
+            const loginTime = localStorage.getItem('adminLoginTime');
+            
+            if (!isLoggedIn || !loginTime) {
+                window.location.href = 'admin_login.html';
+                return false;
+            }
+            
+            const now = Date.now();
+            const loginTimestamp = parseInt(loginTime);
+            const sessionDuration = 24 * 60 * 60 * 1000; // 24 hours
+            
+            if (now - loginTimestamp >= sessionDuration) {
+                logout();
+                return false;
+            }
+            
+            return true;
+        }
+
+        // Logout function
+        function logout() {
+            localStorage.removeItem('adminLoggedIn');
+            localStorage.removeItem('adminLoginTime');
+            window.location.href = 'admin_login.html';
+        }
+
+        // Sample reservation data (in production, this would come from a database)
+        let reservations = [
+            {
+                id: '001',
+                date: '2024-01-15T10:30:00',
+                name: 'Budi Santoso',
+                whatsapp: '081234567890',
+                visitDate: '2024-01-20',
+                visitTime: '12:00',
+                guests: 4,
+                selectedItems: [
+                    { name: 'Ikan Bakar Khas Manado', quantity: 2, price: 45000 },
+                    { name: 'Es Kelapa Muda Segar', quantity: 4, price: 15000 }
+                ],
+                totalPrice: 150000,
+                status: 'pending',
+                notes: 'Mohon meja dekat danau'
+            },
+            {
+                id: '002',
+                date: '2024-01-16T14:20:00',
+                name: 'Sari Dewi',
+                whatsapp: '081987654321',
+                visitDate: '2024-01-22',
+                visitTime: '18:00',
+                guests: 6,
+                selectedItems: [
+                    { name: 'Ayam Rica-Rica Pedas', quantity: 3, price: 40000 },
+                    { name: 'Nasi Putih', quantity: 6, price: 8000 }
+                ],
+                totalPrice: 168000,
+                status: 'approved',
+                notes: 'Reservasi untuk ulang tahun'
+            },
+            {
+                id: '003',
+                date: '2024-01-17T09:15:00',
+                name: 'Andi Wijaya',
+                whatsapp: '081555666777',
+                visitDate: '2024-01-19',
+                visitTime: '15:30',
+                guests: 2,
+                selectedItems: [
+                    { name: 'Mie Cakalang Kuah', quantity: 2, price: 25000 },
+                    { name: 'Jus Markisa Segar', quantity: 2, price: 18000 }
+                ],
+                totalPrice: 86000,
+                status: 'cancelled',
+                notes: 'Dibatalkan karena ada keperluan mendadak'
+            }
+        ];
+
+        // Load reservations from localStorage if available
+        function loadReservationsFromStorage() {
+            const stored = localStorage.getItem('reservations');
+            if (stored) {
+                try {
+                    reservations = JSON.parse(stored);
+                } catch (e) {
+                    console.error('Error loading reservations from storage:', e);
+                }
+            }
+        }
+
+        // Save reservations to localStorage
+        function saveReservationsToStorage() {
+            localStorage.setItem('reservations', JSON.stringify(reservations));
+        }
+
+        // Format currency
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                minimumFractionDigits: 0
+            }).format(amount);
+        }
+
+        // Format date
+        function formatDate(dateString) {
+            return new Date(dateString).toLocaleDateString('id-ID', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        // Update statistics
+        function updateStats() {
+            const total = reservations.length;
+            const pending = reservations.filter(r => r.status === 'pending').length;
+            const approved = reservations.filter(r => r.status === 'approved').length;
+            const cancelled = reservations.filter(r => r.status === 'cancelled').length;
+
+            document.getElementById('totalReservations').textContent = total;
+            document.getElementById('pendingReservations').textContent = pending;
+            document.getElementById('approvedReservations').textContent = approved;
+            document.getElementById('cancelledReservations').textContent = cancelled;
+        }
+
+        // Filter reservations
+        function filterReservations() {
+            const statusFilter = document.getElementById('statusFilter').value;
+            const startDateFilter = document.getElementById('startDateFilter').value;
+            const endDateFilter = document.getElementById('endDateFilter').value;
+            const nameFilter = document.getElementById('nameFilter').value.toLowerCase();
+
+            return reservations.filter(reservation => {
+                const matchesStatus = !statusFilter || reservation.status === statusFilter;
+                const matchesStartDate = !startDateFilter || new Date(reservation.visitDate) >= new Date(startDateFilter);
+                const matchesEndDate = !endDateFilter || new Date(reservation.visitDate) <= new Date(endDateFilter);
+                const matchesName = !nameFilter || reservation.name.toLowerCase().includes(nameFilter);
+
+                return matchesStatus && matchesStartDate && matchesEndDate && matchesName;
+            });
+        }
+
+        // Render reservations table
+        function renderReservations() {
+            const filteredReservations = filterReservations();
+            const tbody = document.getElementById('reservationsTableBody');
+            const emptyState = document.getElementById('emptyState');
+
+            if (filteredReservations.length === 0) {
+                tbody.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+
+            tbody.innerHTML = filteredReservations.map(reservation => `
+                <tr>
+                    <td>${formatDate(reservation.date)}</td>
+                    <td><strong>${reservation.name}</strong></td>
+                    <td><a href="https://wa.me/${reservation.whatsapp}" target="_blank" style="color: #1e7e34; text-decoration: none;">${reservation.whatsapp}</a></td>
+                    <td>${new Date(reservation.visitDate).toLocaleDateString('id-ID')} - ${reservation.visitTime}</td>
+                    <td>${reservation.guests} orang</td>
+                    <td><strong>${formatCurrency(reservation.totalPrice)}</strong></td>
+                    <td>
+                        <span class="status-badge status-${reservation.status}">
+                            ${getStatusText(reservation.status)}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="action-btn view-btn" onclick="viewReservation('${reservation.id}')">
+                                <i class="fas fa-eye"></i> Lihat
+                            </button>
+                            ${reservation.status === 'pending' ? `
+                                <button class="action-btn approve-btn" onclick="updateReservationStatus('${reservation.id}', 'approved')">
+                                    <i class="fas fa-check"></i> Setujui
+                                </button>
+                                <button class="action-btn cancel-btn" onclick="updateReservationStatus('${reservation.id}', 'cancelled')">
+                                    <i class="fas fa-times"></i> Tolak
+                                </button>
+                            ` : ''}
+                            <button class="action-btn delete-btn" onclick="deleteReservation('${reservation.id}')">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Get status text
+        function getStatusText(status) {
+            const statusMap = {
+                'pending': 'Menunggu',
+                'approved': 'Disetujui',
+                'cancelled': 'Dibatalkan'
+            };
+            return statusMap[status] || status;
+        }
+
+        // View reservation details
+        function viewReservation(id) {
+            const reservation = reservations.find(r => r.id === id);
+            if (!reservation) return;
+
+            const modalContent = document.getElementById('modalContent');
+            modalContent.innerHTML = `
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <div class="detail-label">ID Reservasi</div>
+                        <div class="detail-value">#${reservation.id}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Tanggal Booking</div>
+                        <div class="detail-value">${formatDate(reservation.date)}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Nama Pemesan</div>
+                        <div class="detail-value">${reservation.name}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">WhatsApp</div>
+                        <div class="detail-value">
+                            <a href="https://wa.me/${reservation.whatsapp}" target="_blank" style="color: #1e7e34; text-decoration: none;">
+                                ${reservation.whatsapp}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Tanggal Kunjungan</div>
+                        <div class="detail-value">${new Date(reservation.visitDate).toLocaleDateString('id-ID')}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Waktu Kunjungan</div>
+                        <div class="detail-value">${reservation.visitTime}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Jumlah Tamu</div>
+                        <div class="detail-value">${reservation.guests} orang</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Status</div>
+                        <div class="detail-value">
+                            <span class="status-badge status-${reservation.status}">
+                                ${getStatusText(reservation.status)}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin: 25px 0;">
+                    <div class="detail-label" style="margin-bottom: 15px; font-size: 16px;">Pesanan Makanan & Minuman:</div>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 10px;">
+                        ${reservation.selectedItems.map(item => `
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding: 10px; background: white; border-radius: 8px;">
+                                <div>
+                                    <strong>${item.name}</strong><br>
+                                    <small>Qty: ${item.quantity} × ${formatCurrency(item.price)}</small>
+                                </div>
+                                <div style="font-weight: 600; color: #1e7e34;">
+                                    ${formatCurrency(item.quantity * item.price)}
+                                </div>
+                            </div>
+                        `).join('')}
+                        <div style="border-top: 2px solid #1e7e34; margin-top: 15px; padding-top: 15px; text-align: right;">
+                            <strong style="font-size: 18px; color: #1e7e34;">
+                                Total: ${formatCurrency(reservation.totalPrice)}
+                            </strong>
+                        </div>
+                    </div>
+                </div>
+
+                ${reservation.notes ? `
+                    <div class="detail-item" style="grid-column: 1 / -1;">
+                        <div class="detail-label">Catatan Khusus</div>
+                        <div class="detail-value">${reservation.notes}</div>
+                    </div>
+                ` : ''}
+            `;
+
+            document.getElementById('detailModal').style.display = 'block';
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('detailModal').style.display = 'none';
+        }
+
+        // Update reservation status
+        function updateReservationStatus(id, newStatus) {
+            const reservation = reservations.find(r => r.id === id);
+            if (!reservation) return;
+
+            const statusText = getStatusText(newStatus);
+            const confirmMessage = `Apakah Anda yakin ingin ${newStatus === 'approved' ? 'menyetujui' : 'menolak'} reservasi dari ${reservation.name}?`;
+
+            if (confirm(confirmMessage)) {
+                reservation.status = newStatus;
+                saveReservationsToStorage();
+                loadReservations();
+                
+                // Show success message
+                alert(`Reservasi berhasil ${statusText.toLowerCase()}!`);
+            }
+        }
+
+        // Delete reservation
+        function deleteReservation(id) {
+            const reservation = reservations.find(r => r.id === id);
+            if (!reservation) return;
+
+            if (confirm(`Apakah Anda yakin ingin menghapus reservasi dari ${reservation.name}?\n\nTindakan ini tidak dapat dibatalkan.`)) {
+                reservations = reservations.filter(r => r.id !== id);
+                saveReservationsToStorage();
+                loadReservations();
+                
+                // Show success message
+                alert('Reservasi berhasil dihapus!');
+            }
+        }
+
+        // Export to CSV
+        function exportToCSV() {
+            const filteredReservations = filterReservations();
+            
+            if (filteredReservations.length === 0) {
+                alert('Tidak ada data untuk diekspor!');
+                return;
+            }
+
+            const headers = ['ID', 'Tanggal Booking', 'Nama', 'WhatsApp', 'Tanggal Kunjungan', 'Waktu', 'Jumlah Tamu', 'Total Harga', 'Status', 'Catatan'];
+            
+            const csvData = [
+                headers.join(','),
+                ...filteredReservations.map(r => [
+                    r.id,
+                    `"${formatDate(r.date)}"`,
+                    `"${r.name}"`,
+                    r.whatsapp,
+                    `"${new Date(r.visitDate).toLocaleDateString('id-ID')}"`,
+                    r.visitTime,
+                    r.guests,
+                    r.totalPrice,
+                    `"${getStatusText(r.status)}"`,
+                    `"${r.notes || '-'}"`
+                ].join(','))
+            ].join('\n');
+
+            const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `reservasi_taman_kelong_${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+        }
+
+        // Load reservations
+        function loadReservations() {
+            loadReservationsFromStorage();
+            updateStats();
+            renderReservations();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!checkAuth()) return;
+
+            loadReservations();
+
+            // Add event listeners for filters
+            document.getElementById('statusFilter').addEventListener('change', renderReservations);
+            document.getElementById('startDateFilter').addEventListener('change', renderReservations);
+            document.getElementById('endDateFilter').addEventListener('change', renderReservations);
+            document.getElementById('nameFilter').addEventListener('input', renderReservations);
+
+            // Close modal when clicking outside
+            window.addEventListener('click', function(event) {
+                const modal = document.getElementById('detailModal');
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+        });
+
+        // Add function to receive new reservations from the form
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'reservations') {
+                loadReservations();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Setup - Admin Taman Kelong</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #e0f7fa 0%, #fffde4 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .demo-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            max-width: 500px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e7e34, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .demo-btn {
+            background: linear-gradient(135deg, #1e7e34, #ffd700);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+            display: block;
+            width: 100%;
+        }
+
+        .demo-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px rgba(30, 126, 52, 0.3);
+        }
+
+        .demo-btn.secondary {
+            background: linear-gradient(135deg, #6c757d, #95a5a6);
+        }
+
+        .demo-btn.secondary:hover {
+            box-shadow: 0 15px 25px rgba(108, 117, 125, 0.3);
+        }
+
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .status.success {
+            background: linear-gradient(135deg, rgba(30, 126, 52, 0.1), rgba(255, 215, 0, 0.1));
+            color: #1e7e34;
+            border: 1px solid rgba(30, 126, 52, 0.2);
+        }
+
+        .links {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .links a {
+            color: #1e7e34;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 0 10px;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .links a:hover {
+            background: rgba(30, 126, 52, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>🚀 Demo Setup Admin</h1>
+        <p>Klik tombol di bawah untuk menambahkan data sample ke sistem admin agar Anda dapat melihat fitur-fitur yang tersedia.</p>
+
+        <button class="demo-btn" onclick="addSampleData()">
+            Tambah Data Sample
+        </button>
+
+        <button class="demo-btn secondary" onclick="clearAllData()">
+            Reset Semua Data
+        </button>
+
+        <div id="status" class="status" style="display: none;"></div>
+
+        <div class="links">
+            <a href="admin_login.html">Login Admin</a>
+            <a href="reservasi.html">Form Reservasi</a>
+            <a href="admin_guide.html">Panduan</a>
+        </div>
+    </div>
+
+    <script>
+        function addSampleData() {
+            const sampleReservations = [
+                {
+                    id: 'TK001A',
+                    date: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString(), // 3 days ago
+                    name: 'Budi Santoso',
+                    whatsapp: '081234567890',
+                    visitDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 2 days from now
+                    visitTime: '12:00',
+                    guests: 4,
+                    selectedItems: [
+                        { name: 'Ikan Bakar Khas Manado', quantity: 2, price: 45000 },
+                        { name: 'Es Kelapa Muda Segar', quantity: 4, price: 15000 },
+                        { name: 'Nasi Putih', quantity: 4, price: 8000 }
+                    ],
+                    totalPrice: 182000,
+                    status: 'pending',
+                    notes: 'Mohon meja dekat danau untuk suasana yang tenang'
+                },
+                {
+                    id: 'TK002B',
+                    date: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(), // 2 days ago
+                    name: 'Sari Dewi Lestari',
+                    whatsapp: '081987654321',
+                    visitDate: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 5 days from now
+                    visitTime: '18:00',
+                    guests: 6,
+                    selectedItems: [
+                        { name: 'Ayam Rica-Rica Pedas', quantity: 3, price: 40000 },
+                        { name: 'Mie Cakalang Kuah', quantity: 2, price: 25000 },
+                        { name: 'Jus Markisa Segar', quantity: 6, price: 18000 },
+                        { name: 'Nasi Putih', quantity: 6, price: 8000 }
+                    ],
+                    totalPrice: 316000,
+                    status: 'approved',
+                    notes: 'Reservasi untuk ulang tahun anak, mohon ada surprise kecil'
+                },
+                {
+                    id: 'TK003C',
+                    date: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString(), // 1 day ago
+                    name: 'Andi Wijaya',
+                    whatsapp: '081555666777',
+                    visitDate: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // tomorrow
+                    visitTime: '15:30',
+                    guests: 2,
+                    selectedItems: [
+                        { name: 'Mie Cakalang Kuah', quantity: 2, price: 25000 },
+                        { name: 'Jus Markisa Segar', quantity: 2, price: 18000 }
+                    ],
+                    totalPrice: 86000,
+                    status: 'cancelled',
+                    notes: 'Dibatalkan karena ada keperluan mendadak'
+                },
+                {
+                    id: 'TK004D',
+                    date: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString(), // 4 hours ago
+                    name: 'Maria Tobing',
+                    whatsapp: '081222333444',
+                    visitDate: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 3 days from now
+                    visitTime: '11:00',
+                    guests: 8,
+                    selectedItems: [
+                        { name: 'Ikan Bakar Khas Manado', quantity: 4, price: 45000 },
+                        { name: 'Ayam Rica-Rica Pedas', quantity: 2, price: 40000 },
+                        { name: 'Es Kelapa Muda Segar', quantity: 8, price: 15000 },
+                        { name: 'Nasi Putih', quantity: 8, price: 8000 }
+                    ],
+                    totalPrice: 384000,
+                    status: 'pending',
+                    notes: 'Rombongan keluarga besar, mohon meja yang bisa digabung'
+                },
+                {
+                    id: 'TK005E',
+                    date: new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString(), // 1 hour ago
+                    name: 'James Sitorus',
+                    whatsapp: '081999888777',
+                    visitDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0], // 1 week from now
+                    visitTime: '19:00',
+                    guests: 12,
+                    selectedItems: [
+                        { name: 'Ikan Bakar Khas Manado', quantity: 6, price: 45000 },
+                        { name: 'Ayam Rica-Rica Pedas', quantity: 4, price: 40000 },
+                        { name: 'Mie Cakalang Kuah', quantity: 4, price: 25000 },
+                        { name: 'Es Kelapa Muda Segar', quantity: 12, price: 15000 },
+                        { name: 'Jus Markisa Segar', quantity: 6, price: 18000 },
+                        { name: 'Nasi Putih', quantity: 12, price: 8000 }
+                    ],
+                    totalPrice: 644000,
+                    status: 'approved',
+                    notes: 'Event kantor, mohon area yang agak private dan ada sound system'
+                }
+            ];
+
+            try {
+                localStorage.setItem('reservations', JSON.stringify(sampleReservations));
+                showStatus('✅ Data sample berhasil ditambahkan! Sekarang Anda dapat login ke admin dashboard untuk melihat data reservasi.', 'success');
+            } catch (error) {
+                showStatus('❌ Gagal menambahkan data sample: ' + error.message, 'error');
+            }
+        }
+
+        function clearAllData() {
+            if (confirm('Apakah Anda yakin ingin menghapus semua data reservasi?\n\nTindakan ini tidak dapat dibatalkan.')) {
+                try {
+                    localStorage.removeItem('reservations');
+                    localStorage.removeItem('adminLoggedIn');
+                    localStorage.removeItem('adminLoginTime');
+                    showStatus('🗑️ Semua data berhasil dihapus! Database admin sudah bersih.', 'success');
+                } catch (error) {
+                    showStatus('❌ Gagal menghapus data: ' + error.message, 'error');
+                }
+            }
+        }
+
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+            statusDiv.style.display = 'block';
+
+            setTimeout(() => {
+                statusDiv.style.display = 'none';
+            }, 5000);
+        }
+
+        // Check if there's existing data
+        document.addEventListener('DOMContentLoaded', function() {
+            const existingData = localStorage.getItem('reservations');
+            if (existingData) {
+                try {
+                    const reservations = JSON.parse(existingData);
+                    if (reservations.length > 0) {
+                        showStatus(`📊 Ditemukan ${reservations.length} reservasi yang sudah ada di sistem.`, 'success');
+                    }
+                } catch (error) {
+                    console.error('Error parsing existing data:', error);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservasi - Taman Kelong</title>
+    <meta name="description" content="Reservasi tempat dan makanan di Taman Kelong - Tomohon, Sulawesi Utara">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>        /* Force food items to be visible */
+        .food-item {
+            display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: none !important;
+        }
+        .food-items {
+            display: grid !important;
+            visibility: visible !important;
+        }
+        .food-selection {
+            display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        .reservation-container {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+        main.content {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }        /* Beautiful background */
+        body {
+            background: linear-gradient(135deg, #e0f7fa 0%, #fffde4 100%);
+            min-height: 100vh;
+        }
+
+        /* Floating elements for background animation */
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-element {
+            position: absolute;
+            background: rgba(30, 126, 52, 0.1);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+
+        .floating-element:nth-child(1) {
+            width: 100px;
+            height: 100px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            width: 150px;
+            height: 150px;
+            top: 70%;
+            left: 80%;
+            animation-delay: -7s;
+        }
+
+        .floating-element:nth-child(3) {
+            width: 80px;
+            height: 80px;
+            top: 20%;
+            left: 70%;
+            animation-delay: -3s;
+        }
+
+        .floating-element:nth-child(4) {
+            width: 120px;
+            height: 120px;
+            top: 60%;
+            left: 20%;
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px) translateX(0px) scale(1);
+                opacity: 0.5;
+            }
+            33% {
+                transform: translateY(-30px) translateX(20px) scale(1.1);
+                opacity: 0.8;
+            }
+            66% {
+                transform: translateY(20px) translateX(-15px) scale(0.9);
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(0px) translateX(0px) scale(1);
+                opacity: 0.5;
+            }
+        }
+
+        /* Main content spacing */
+        main.content {
+            padding: 2rem 0;
+        }
+
+        /* Modern glassmorphism container */
+        .reservation-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.15),
+                0 0 0 1px rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }        .reservation-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #1e7e34, #ffd700, #1e7e34, #ffd700);
+            background-size: 300% 100%;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }        /* Animated form header */
+        .form-header {
+            text-align: center;
+            padding: 3rem 2rem;
+            position: relative;
+            background: linear-gradient(135deg, rgba(30, 126, 52, 0.1), rgba(255, 215, 0, 0.1));
+        }
+
+        .form-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="20" cy="20" r="1" fill="%231e7e34" opacity="0.2"><animate attributeName="opacity" values="0.1;0.5;0.1" dur="3s" repeatCount="indefinite"/></circle><circle cx="80" cy="30" r="1" fill="%23ffd700" opacity="0.2"><animate attributeName="opacity" values="0.1;0.5;0.1" dur="4s" repeatCount="indefinite"/></circle><circle cx="30" cy="80" r="1" fill="%231e7e34" opacity="0.2"><animate attributeName="opacity" values="0.1;0.5;0.1" dur="5s" repeatCount="indefinite"/></circle></svg>') repeat;
+            pointer-events: none;
+        }
+
+        .form-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e7e34, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .form-header p {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 0;
+            position: relative;
+            z-index: 2;
+        }        .form-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: linear-gradient(90deg, #1e7e34, #ffd700);
+            border-radius: 2px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; transform: translateX(-50%) scaleX(1); }
+            50% { opacity: 1; transform: translateX(-50%) scaleX(1.1); }
+        }        /* Form content */
+        .form-content {
+            padding: 3rem;
+        }
+
+        /* Progress Indicator */
+        .progress-indicator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .progress-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }        .step-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(30, 126, 52, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #666;
+            transition: all 0.3s ease;
+            margin-bottom: 0.5rem;
+        }.progress-step.active .step-number {
+            background: linear-gradient(135deg, #1e7e34, #ffd700);
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(30, 126, 52, 0.4);
+        }
+
+        .progress-step.completed .step-number {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+        }
+
+        .step-label {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 600;
+            text-align: center;
+            transition: all 0.3s ease;
+        }        .progress-step.active .step-label {
+            color: #1e7e34;
+            font-weight: 700;
+        }
+
+        .progress-line {
+            flex: 1;
+            height: 3px;
+            background: rgba(30, 126, 52, 0.2);
+            margin: 0 1rem;
+            border-radius: 2px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-line.completed::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #1e7e34, #ffd700);
+            animation: progressFill 0.5s ease-out;
+        }
+
+        @keyframes progressFill {
+            from { width: 0%; }
+            to { width: 100%; }
+        }
+
+        /* Form sections */
+        .form-section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 25px;
+            background: linear-gradient(135deg, #1e7e34, #ffd700);
+            border-radius: 2px;
+        }/* Enhanced form controls */
+        .form-group {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }        .form-control {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border: 2px solid rgba(30, 126, 52, 0.2);
+            border-radius: 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            font-family: 'Quicksand', sans-serif;
+            position: relative;
+        }
+
+        .form-control:focus {
+            border-color: #1e7e34;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(30, 126, 52, 0.1);
+            background: rgba(255, 255, 255, 0.95);
+            transform: translateY(-2px);
+        }
+
+        .form-control:valid {
+            border-color: #28a745;
+        }        .form-control:focus + label {
+            color: #1e7e34;
+        }
+
+        /* Add floating label effect */
+        .form-group.floating-label {
+            position: relative;
+        }
+
+        .form-group.floating-label label {
+            position: absolute;
+            top: 1rem;
+            left: 1.2rem;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 0 0.5rem;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            border-radius: 5px;
+        }        .form-group.floating-label .form-control:focus + label,
+        .form-group.floating-label .form-control:valid + label {
+            top: -0.5rem;
+            font-size: 0.9rem;
+            color: #1e7e34;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        /* Success indicator */
+        .form-control:valid::after {
+            content: '✓';
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #28a745;
+            font-weight: bold;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }        /* Beautiful food selection */
+        .food-selection {
+            background: linear-gradient(135deg, rgba(30, 126, 52, 0.05), rgba(255, 215, 0, 0.05));
+            padding: 2.5rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(30, 126, 52, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .food-selection h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e7e34, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .food-selection > p {
+            text-align: center;
+            color: #666;
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .food-category {
+            margin-bottom: 3rem;
+        }        .food-category h4 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: linear-gradient(135deg, rgba(30, 126, 52, 0.1), rgba(255, 215, 0, 0.1));
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(30, 126, 52, 0.2);
+        }
+
+        .food-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }        /* Stunning food item cards */
+        .food-item {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 1.5rem;
+            border-radius: 20px;
+            border: 2px solid rgba(30, 126, 52, 0.1);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .food-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(30, 126, 52, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .food-item:hover::before {
+            left: 100%;
+        }        .food-item:hover {
+            border-color: #1e7e34;
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(30, 126, 52, 0.2);
+        }
+
+        .food-item.selected {
+            border-color: #1e7e34;
+            background: linear-gradient(135deg, rgba(30, 126, 52, 0.1), rgba(255, 215, 0, 0.1));
+            transform: translateY(-4px);
+            box-shadow: 0 15px 30px rgba(30, 126, 52, 0.3);
+        }
+
+        .food-item input[type="checkbox"] {
+            margin-right: 0.8rem;
+            transform: scale(1.2);
+        }
+
+        .food-item-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .food-name {
+            font-weight: 700;
+            color: #333;
+            font-size: 1.1rem;
+        }        .food-price {
+            color: #1e7e34;
+            font-weight: 700;
+            font-size: 1.1rem;
+            background: rgba(30, 126, 52, 0.1);
+            padding: 0.3rem 0.8rem;
+            border-radius: 10px;
+        }
+
+        /* Enhanced quantity controls */
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: center;
+        }        .quantity-btn {
+            background: linear-gradient(135deg, #1e7e34, #ffd700);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-btn:hover {
+            background: linear-gradient(135deg, #ffd700, #1e7e34);
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(30, 126, 52, 0.4);
+        }        .quantity-input {
+            width: 80px;
+            text-align: center;
+            border: 2px solid rgba(30, 126, 52, 0.3);
+            border-radius: 12px;
+            padding: 0.8rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.9);
+            transition: all 0.3s ease;
+        }
+
+        .quantity-input:focus {
+            border-color: #1e7e34;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(30, 126, 52, 0.1);
+        }        /* Spectacular submit button */
+        .submit-btn {
+            background: linear-gradient(135deg, #1e7e34, #ffd700, #1e7e34);
+            background-size: 200% 200%;
+            color: #fff;
+            padding: 1.2rem 4rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            display: block;
+            margin: 3rem auto 0;
+            box-shadow: 0 10px 30px rgba(30, 126, 52, 0.4);
+            position: relative;
+            overflow: hidden;
+            animation: gradientAnimation 3s ease infinite;
+            min-width: 250px;
+        }
+
+        @keyframes gradientAnimation {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }        .submit-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(30, 126, 52, 0.5);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-loading {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .loading-spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid #fff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }        /* Beautiful reservation summary */
+        .reservation-summary {
+            background: linear-gradient(135deg, rgba(30, 126, 52, 0.1), rgba(255, 215, 0, 0.1));
+            padding: 2.5rem;
+            border-radius: 20px;
+            margin-top: 2rem;
+            border: 1px solid rgba(30, 126, 52, 0.2);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reservation-summary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="10" cy="10" r="1" fill="%231e7e34" opacity="0.1"><animate attributeName="opacity" values="0.1;0.3;0.1" dur="3s" repeatCount="indefinite"/></circle><circle cx="90" cy="20" r="1" fill="%23ffd700" opacity="0.1"><animate attributeName="opacity" values="0.1;0.3;0.1" dur="4s" repeatCount="indefinite"/></circle><circle cx="20" cy="90" r="1" fill="%231e7e34" opacity="0.1"><animate attributeName="opacity" values="0.1;0.3;0.1" dur="5s" repeatCount="indefinite"/></circle></svg>') repeat;
+            pointer-events: none;
+        }
+
+        .summary-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e7e34, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 12px;
+            border: 1px solid rgba(30, 126, 52, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .summary-item:hover {
+            background: rgba(255, 255, 255, 0.8);
+            transform: translateX(5px);
+        }        .total-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #1e7e34, #ffd700);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 15px;
+            border: 2px solid rgba(30, 126, 52, 0.2);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .food-items {
+                grid-template-columns: 1fr;
+            }
+            
+            .reservation-container {
+                margin: 1rem;
+                border-radius: 20px;
+            }
+
+            .form-header h2 {
+                font-size: 2rem;
+            }
+
+            .form-content {
+                padding: 2rem 1.5rem;
+            }
+
+            .submit-btn {
+                padding: 1rem 2.5rem;
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .reservation-container {
+                margin: 0.5rem;
+            }
+
+            .form-header {
+                padding: 2rem 1rem;
+            }
+
+            .form-content {
+                padding: 1.5rem 1rem;
+            }
+
+            .form-section {
+                padding: 1.5rem;
+            }
+
+            .food-selection {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header>
+        <nav>
+            <div class="logo">Taman Kelong</div>
+            <ul class="nav-links">
+                <li><a href="index.html#about">Tentang</a></li>
+                <li><a href="menu.html">Menu</a></li>
+                <li><a href="reservasi.html" class="active">Reservasi</a></li>
+                <li><a href="index.html#contact">Kontak</a></li>
+            </ul>
+        </nav>
+        <div class="hero">
+            <h1>Reservasi Taman Kelong</h1>
+            <p>Pesan tempat dan makanan favorit Anda</p>
+        </div>
+    </header>    <!-- Floating background elements -->
+    <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="content">
+        <section id="reservation" data-aos="fade-up">
+            <div class="reservation-container">
+                <div class="form-header">
+                    <h2>✨ Form Reservasi ✨</h2>
+                    <p>Nikmati pengalaman dining terbaik di Taman Kelong dengan sistem reservasi yang mudah dan modern</p>
+                </div>
+                
+                <div class="form-content">
+                    <!-- Progress Indicator -->
+                    <div class="progress-indicator">
+                        <div class="progress-step active" data-step="1">
+                            <div class="step-number">1</div>
+                            <div class="step-label">Info Personal</div>
+                        </div>
+                        <div class="progress-line"></div>
+                        <div class="progress-step" data-step="2">
+                            <div class="step-number">2</div>
+                            <div class="step-label">Detail Reservasi</div>
+                        </div>
+                        <div class="progress-line"></div>
+                        <div class="progress-step" data-step="3">
+                            <div class="step-number">3</div>
+                            <div class="step-label">Menu Pilihan</div>
+                        </div>
+                        <div class="progress-line"></div>
+                        <div class="progress-step" data-step="4">
+                            <div class="step-number">4</div>
+                            <div class="step-label">Konfirmasi</div>
+                        </div>
+                    </div>
+                  <form id="reservationForm">
+                    <!-- Personal Information Section -->
+                    <div class="form-section">
+                        <div class="section-title">👤 Informasi Personal</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="nama">Nama Lengkap *</label>
+                                <input type="text" id="nama" name="nama" class="form-control" required placeholder="Masukkan nama lengkap Anda">
+                            </div>
+                            <div class="form-group">
+                                <label for="telepon">Nomor HP *</label>
+                                <input type="tel" id="telepon" name="telepon" class="form-control" required placeholder="081234567890">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reservation Details Section -->
+                    <div class="form-section">
+                        <div class="section-title">📅 Detail Reservasi</div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="tanggal">Tanggal Kunjungan *</label>
+                                <input type="date" id="tanggal" name="tanggal" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="jam">Jam Kedatangan *</label>
+                                <input type="time" id="jam" name="jam" class="form-control" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="jumlahOrang">Jumlah Orang *</label>
+                            <input type="number" id="jumlahOrang" name="jumlahOrang" class="form-control" min="1" max="50" required placeholder="Berapa orang yang akan datang?">
+                        </div>
+                    </div>                    <!-- Food Selection Section -->
+                    <div class="food-selection">
+                        <h3>🍽️ Menu Pilihan </h3>
+                        <p>Pilih makanan dan minuman terbaik untuk melengkapi pengalaman kuliner Anda</p>                        <!-- Makanan -->
+                        <div class="food-category">
+                            <h4>🍽️ Makanan</h4>
+                            <div class="food-items">
+                                <div class="food-item" data-category="makanan" data-name="Cakalang Sous" data-price="40000">
+                                    <div class="food-item-info">
+                                        <div>
+                                            <input type="checkbox" id="cakalang-sous" name="food[]" value="cakalang-sous-40000">
+                                            <span class="food-name">Cakalang Sous</span>
+                                        </div>
+                                        <span class="food-price">Rp 40.000</span>
+                                    </div>
+                                    <div class="quantity-controls" style="display: none;">
+                                        <button type="button" class="quantity-btn minus">-</button>
+                                        <input type="number" class="quantity-input" value="1" min="1">
+                                        <button type="button" class="quantity-btn plus">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="food-item" data-category="makanan" data-name="Ayam Bumbu Minahasa" data-price="45000">
+                                    <div class="food-item-info">
+                                        <div>
+                                            <input type="checkbox" id="ayam-bumbu-minahasa" name="food[]" value="ayam-bumbu-minahasa-45000">
+                                            <span class="food-name">Ayam Bumbu Minahasa</span>
+                                        </div>
+                                        <span class="food-price">Rp 45.000</span>
+                                    </div>
+                                    <div class="quantity-controls" style="display: none;">
+                                        <button type="button" class="quantity-btn minus">-</button>
+                                        <input type="number" class="quantity-input" value="1" min="1">
+                                        <button type="button" class="quantity-btn plus">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="food-item" data-category="makanan" data-name="Sapi Lada Hitam" data-price="79000">
+                                    <div class="food-item-info">
+                                        <div>
+                                            <input type="checkbox" id="sapi-lada-hitam" name="food[]" value="sapi-lada-hitam-79000">
+                                            <span class="food-name">Sapi Lada Hitam</span>
+                                        </div>
+                                        <span class="food-price">Rp 79.000</span>
+                                    </div>
+                                    <div class="quantity-controls" style="display: none;">
+                                        <button type="button" class="quantity-btn minus">-</button>
+                                        <input type="number" class="quantity-input" value="1" min="1">
+                                        <button type="button" class="quantity-btn plus">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="food-item" data-category="makanan" data-name="Sapo Tahu Seafood" data-price="50000">
+                                    <div class="food-item-info">
+                                        <div>
+                                            <input type="checkbox" id="sapo-tahu-seafood" name="food[]" value="sapo-tahu-seafood-50000">
+                                            <span class="food-name">Sapo Tahu Seafood</span>
+                                        </div>
+                                        <span class="food-price">Rp 50.000</span>
+                                    </div>
+                                    <div class="quantity-controls" style="display: none;">
+                                        <button type="button" class="quantity-btn minus">-</button>
+                                        <input type="number" class="quantity-input" value="1" min="1">
+                                        <button type="button" class="quantity-btn plus">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                        <!-- Minuman -->
+                        <div class="food-category">
+                            <h4>🥤 Minuman</h4>
+                            <div class="food-items">
+                                <div class="food-item" data-category="minuman" data-name="Kelong Garden" data-price="37000">
+                                    <div class="food-item-info">
+                                        <div>
+                                            <input type="checkbox" id="kelong-garden" name="food[]" value="kelong-garden-37000">
+                                            <span class="food-name">Kelong Garden</span>
+                                        </div>
+                                        <span class="food-price">Rp 37.000</span>
+                                    </div>
+                                    <div class="quantity-controls" style="display: none;">
+                                        <button type="button" class="quantity-btn minus">-</button>
+                                        <input type="number" class="quantity-input" value="1" min="1">
+                                        <button type="button" class="quantity-btn plus">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="food-item" data-category="minuman" data-name="Affogato" data-price="30000">
+                                    <div class="food-item-info">
+                                        <div>
+                                            <input type="checkbox" id="affogato" name="food[]" value="affogato-30000">
+                                            <span class="food-name">Affogato</span>
+                                        </div>
+                                        <span class="food-price">Rp 30.000</span>
+                                    </div>
+                                    <div class="quantity-controls" style="display: none;">
+                                        <button type="button" class="quantity-btn minus">-</button>
+                                        <input type="number" class="quantity-input" value="1" min="1">
+                                        <button type="button" class="quantity-btn plus">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="food-item" data-category="minuman" data-name="Avocado Kelong" data-price="35000">
+                                    <div class="food-item-info">
+                                        <div>
+                                            <input type="checkbox" id="avocado-kelong" name="food[]" value="avocado-kelong-35000">
+                                            <span class="food-name">Avocado Kelong</span>
+                                        </div>
+                                        <span class="food-price">Rp 35.000</span>
+                                    </div>
+                                    <div class="quantity-controls" style="display: none;">
+                                        <button type="button" class="quantity-btn minus">-</button>
+                                        <input type="number" class="quantity-input" value="1" min="1">
+                                        <button type="button" class="quantity-btn plus">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="food-item" data-category="minuman" data-name="Es Kelapa Muda" data-price="20000">
+                                    <div class="food-item-info">
+                                        <div>
+                                            <input type="checkbox" id="es-kelapa" name="food[]" value="es-kelapa-20000">
+                                            <span class="food-name">Es Kelapa Muda</span>
+                                        </div>
+                                        <span class="food-price">Rp 20.000</span>
+                                    </div>
+                                    <div class="quantity-controls" style="display: none;">
+                                        <button type="button" class="quantity-btn minus">-</button>
+                                        <input type="number" class="quantity-input" value="1" min="1">
+                                        <button type="button" class="quantity-btn plus">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                        <!-- Snack -->
+                        <div class="food-category">
+                            <h4>🍿 Snack</h4>
+                            <div class="food-items">
+                                <div class="food-item" data-category="snack" data-name="Pisang Bakar Gula Merah" data-price="30000">
+                                    <div class="food-item-info">
+                                        <div>
+                                            <input type="checkbox" id="pisang-bakar-gula-merah" name="food[]" value="pisang-bakar-gula-merah-30000">
+                                            <span class="food-name">Pisang Bakar Gula Merah</span>
+                                        </div>
+                                        <span class="food-price">Rp 30.000</span>
+                                    </div>
+                                    <div class="quantity-controls" style="display: none;">
+                                        <button type="button" class="quantity-btn minus">-</button>
+                                        <input type="number" class="quantity-input" value="1" min="1">
+                                        <button type="button" class="quantity-btn plus">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="food-item" data-category="snack" data-name="French Fries" data-price="28000">
+                                    <div class="food-item-info">
+                                        <div>
+                                            <input type="checkbox" id="french-fries" name="food[]" value="french-fries-28000">
+                                            <span class="food-name">French Fries</span>
+                                        </div>
+                                        <span class="food-price">Rp 28.000</span>
+                                    </div>
+                                    <div class="quantity-controls" style="display: none;">
+                                        <button type="button" class="quantity-btn minus">-</button>
+                                        <input type="number" class="quantity-input" value="1" min="1">
+                                        <button type="button" class="quantity-btn plus">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="food-item" data-category="snack" data-name="Kue Cucur" data-price="30000">
+                                    <div class="food-item-info">
+                                        <div>
+                                            <input type="checkbox" id="kue-cucur" name="food[]" value="kue-cucur-30000">
+                                            <span class="food-name">Kue Cucur</span>
+                                        </div>
+                                        <span class="food-price">Rp 30.000</span>
+                                    </div>
+                                    <div class="quantity-controls" style="display: none;">
+                                        <button type="button" class="quantity-btn minus">-</button>
+                                        <input type="number" class="quantity-input" value="1" min="1">
+                                        <button type="button" class="quantity-btn plus">+</button>
+                                    </div>
+                                </div>
+
+                                <div class="food-item" data-category="snack" data-name="Lumpia Goreng" data-price="30000">
+                                    <div class="food-item-info">
+                                        <div>
+                                            <input type="checkbox" id="lumpia-goreng" name="food[]" value="lumpia-goreng-30000">
+                                            <span class="food-name">Lumpia Goreng</span>
+                                        </div>
+                                        <span class="food-price">Rp 30.000</span>
+                                    </div>
+                                    <div class="quantity-controls" style="display: none;">
+                                        <button type="button" class="quantity-btn minus">-</button>
+                                        <input type="number" class="quantity-input" value="1" min="1">
+                                        <button type="button" class="quantity-btn plus">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    <!-- Reservation Summary -->
+                    <div class="reservation-summary" id="summary" style="display: none;">
+                        <div class="summary-title">🧾 Ringkasan Pesanan</div>
+                        <div id="summaryContent"></div>
+                        <div class="total-price" id="totalPrice">💰 Total: Rp 0</div>
+                    </div>
+
+                    <!-- Additional Notes Section -->
+                    <div class="form-section">
+                        <div class="section-title">📝 Catatan Tambahan</div>
+                        <div class="form-group">
+                            <label for="catatan">Permintaan Khusus</label>
+                            <textarea id="catatan" name="catatan" class="form-control" rows="4" placeholder="Tuliskan permintaan khusus seperti: tempat duduk favorit, alergi makanan, perayaan spesial, dll..."></textarea>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <span class="btn-text">✨ Kirim Reservasi ✨</span>
+                        <span class="btn-loading" style="display: none;">
+                            <span class="loading-spinner"></span>
+                            Mengirim...
+                        </span>
+                    </button>
+                </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Kelompok Eldian. All rights reserved.</p>
+    </footer>
+
+    <!-- Scripts -->    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/main.js"></script>    <script>
+        // Set minimum date to today
+        document.getElementById('tanggal').min = new Date().toISOString().split('T')[0];
+
+        // Progress indicator functionality
+        function updateProgress(currentStep) {
+            const steps = document.querySelectorAll('.progress-step');
+            const lines = document.querySelectorAll('.progress-line');
+            
+            steps.forEach((step, index) => {
+                const stepNumber = index + 1;
+                
+                if (stepNumber < currentStep) {
+                    step.classList.add('completed');
+                    step.classList.remove('active');
+                } else if (stepNumber === currentStep) {
+                    step.classList.add('active');
+                    step.classList.remove('completed');
+                } else {
+                    step.classList.remove('active', 'completed');
+                }
+            });
+            
+            lines.forEach((line, index) => {
+                if (index < currentStep - 1) {
+                    line.classList.add('completed');
+                } else {
+                    line.classList.remove('completed');
+                }
+            });
+        }
+
+        // Form validation and progress tracking
+        const personalFields = ['nama', 'telepon'];
+        const reservationFields = ['tanggal', 'jam', 'jumlahOrang'];
+
+        function checkFormProgress() {
+            const personalComplete = personalFields.every(field => 
+                document.getElementById(field).value.trim() !== ''
+            );
+            
+            const reservationComplete = reservationFields.every(field => 
+                document.getElementById(field).value.trim() !== ''
+            );
+            
+            const hasSelectedFood = selectedItems.length > 0;
+            
+            if (!personalComplete) {
+                updateProgress(1);
+            } else if (!reservationComplete) {
+                updateProgress(2);
+            } else if (!hasSelectedFood) {
+                updateProgress(3);
+            } else {
+                updateProgress(4);
+            }
+        }
+
+        // Add event listeners to form fields
+        [...personalFields, ...reservationFields].forEach(fieldId => {
+            document.getElementById(fieldId).addEventListener('input', checkFormProgress);
+            document.getElementById(fieldId).addEventListener('change', checkFormProgress);
+        });
+
+        // Initial progress check
+        updateProgress(1);
+
+        // Food selection functionality with progress update
+        const foodItems = document.querySelectorAll('.food-item');
+        const summary = document.getElementById('summary');
+        const summaryContent = document.getElementById('summaryContent');
+        const totalPriceElement = document.getElementById('totalPrice');
+
+        let selectedItems = [];
+
+        foodItems.forEach(item => {
+            const checkbox = item.querySelector('input[type="checkbox"]');
+            const quantityControls = item.querySelector('.quantity-controls');
+            const quantityInput = item.querySelector('.quantity-input');
+            const minusBtn = item.querySelector('.minus');
+            const plusBtn = item.querySelector('.plus');
+
+            checkbox.addEventListener('change', function() {
+                if (this.checked) {
+                    item.classList.add('selected');
+                    quantityControls.style.display = 'flex';
+                    addToSummary(item);
+                } else {
+                    item.classList.remove('selected');
+                    quantityControls.style.display = 'none';
+                    removeFromSummary(item);
+                }
+                updateSummary();
+                checkFormProgress(); // Update progress when food is selected
+            });
+
+            minusBtn.addEventListener('click', () => {
+                if (quantityInput.value > 1) {
+                    quantityInput.value--;
+                    updateSummary();
+                }
+            });
+
+            plusBtn.addEventListener('click', () => {
+                quantityInput.value++;
+                updateSummary();
+            });
+
+            quantityInput.addEventListener('change', () => {
+                if (quantityInput.value < 1) quantityInput.value = 1;
+                updateSummary();
+            });
+        });
+
+        function addToSummary(item) {
+            const name = item.dataset.name;
+            const price = parseInt(item.dataset.price);
+            const quantity = parseInt(item.querySelector('.quantity-input').value);
+
+            selectedItems.push({
+                element: item,
+                name: name,
+                price: price,
+                quantity: quantity
+            });
+        }
+
+        function removeFromSummary(item) {
+            selectedItems = selectedItems.filter(selectedItem => selectedItem.element !== item);
+        }
+
+        function updateSummary() {
+            // Update quantities in selectedItems
+            selectedItems.forEach(selectedItem => {
+                selectedItem.quantity = parseInt(selectedItem.element.querySelector('.quantity-input').value);
+            });
+
+            if (selectedItems.length === 0) {
+                summary.style.display = 'none';
+                return;
+            }
+
+            summary.style.display = 'block';
+            
+            let summaryHTML = '';
+            let total = 0;
+
+            selectedItems.forEach(item => {
+                const subtotal = item.price * item.quantity;
+                total += subtotal;
+                
+                summaryHTML += `
+                    <div class="summary-item">
+                        <span>${item.name} x${item.quantity}</span>
+                        <span>Rp ${subtotal.toLocaleString('id-ID')}</span>
+                    </div>
+                `;
+            });
+
+            summaryContent.innerHTML = summaryHTML;
+            totalPriceElement.textContent = `Total: Rp ${total.toLocaleString('id-ID')}`;
+        }        // Function to save reservation to admin system
+        function saveToAdminSystem(reservationData) {
+            try {
+                // Get existing reservations from localStorage
+                let reservations = [];
+                const stored = localStorage.getItem('reservations');
+                if (stored) {
+                    reservations = JSON.parse(stored);
+                }
+                
+                // Add new reservation
+                reservations.push(reservationData);
+                
+                // Save back to localStorage
+                localStorage.setItem('reservations', JSON.stringify(reservations));
+                
+                console.log('Reservasi berhasil disimpan ke sistem admin');
+            } catch (error) {
+                console.error('Error saving reservation to admin system:', error);
+            }
+        }
+
+        // Generate unique ID for reservation
+        function generateReservationId() {
+            const timestamp = Date.now().toString();
+            const random = Math.random().toString(36).substr(2, 3);
+            return timestamp.slice(-6) + random.toUpperCase();
+        }
+
+        // Form submission
+        document.getElementById('reservationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Show loading state
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const btnLoading = submitBtn.querySelector('.btn-loading');
+            
+            submitBtn.disabled = true;
+            btnText.style.display = 'none';
+            btnLoading.style.display = 'flex';
+            
+            const formData = new FormData(this);
+            const nama = formData.get('nama');
+            const telepon = formData.get('telepon');
+            const tanggal = formData.get('tanggal');
+            const jam = formData.get('jam');
+            const jumlahOrang = formData.get('jumlahOrang');
+            const catatan = formData.get('catatan');
+
+            // Calculate total price
+            const totalPrice = selectedItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
+            // Prepare reservation data for admin system
+            const reservationData = {
+                id: generateReservationId(),
+                date: new Date().toISOString(),
+                name: nama,
+                whatsapp: telepon,
+                visitDate: tanggal,
+                visitTime: jam,
+                guests: parseInt(jumlahOrang),
+                selectedItems: selectedItems.map(item => ({
+                    name: item.name,
+                    quantity: item.quantity,
+                    price: item.price
+                })),
+                totalPrice: totalPrice,
+                status: 'pending',
+                notes: catatan || ''
+            };            // Simulate processing delay for better UX
+            setTimeout(() => {
+                // Save to admin system
+                saveToAdminSystem(reservationData);
+                
+                // Reset form
+                document.getElementById('reservationForm').reset();
+                selectedItems = [];
+                updateSummary();
+                
+                // Reset all food items
+                foodItems.forEach(item => {
+                    item.classList.remove('selected');
+                    item.querySelector('input[type="checkbox"]').checked = false;
+                    item.querySelector('.quantity-controls').style.display = 'none';
+                    item.querySelector('.quantity-input').value = 1;
+                });
+                
+                // Reset progress
+                updateProgress(1);
+                
+                // Reset button state
+                submitBtn.disabled = false;
+                btnText.style.display = 'inline';
+                btnLoading.style.display = 'none';
+                
+                // Show success message with reservation ID
+                alert(`🎉 Reservasi berhasil dikirim!\n\nID Reservasi: #${reservationData.id}\n\nReservasi Anda telah tersimpan di sistem. Tim kami akan segera memproses reservasi Anda dan menghubungi Anda untuk konfirmasi.\n\nTerima kasih telah memilih Taman Kelong!`);
+            }, 1500);
+        });
+    </script>
+</body>
+</html>
